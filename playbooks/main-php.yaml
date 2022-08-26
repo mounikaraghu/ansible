@@ -1,0 +1,5 @@
+---
+- name: demo php
+  hosts: dbservers
+  roles:
+    - php

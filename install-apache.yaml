@@ -1,0 +1,45 @@
+---
+- name: install lamp servers
+  hosts: dbservers
+  vars:
+    name: mounika
+    port: 80
+  tasks:
+     - name: only run "update_cache" if the last one is more than 3600 seconds ago
+       ansible.builtin.apt:
+         update_cache: yes
+         cache_valid_time: 3600
+       tags:
+        - nginx
+     - name: update all packages on system
+       apt:
+         name: "*"
+         state: latest
+       tags:
+        - upgrade
+     - name: install apache httpd
+       ansible.builtin.apt:
+         name: apache2
+         state: present
+       tags:
+        - apache
+     - name: install mariadb database
+       ansible.builtin.apt:
+         name: mariadb-server, mariadb-client
+         state: present
+       tags:
+         - mb
+     - name: install php
+       ansible.builtin.apt:
+         name: php
+         state: present
+       tags:
+        - php
+     - name: print system uptime
+      shell: uptime -p
+      register: system_uptime
+     - name: print uptime of managed node
+      debug:
+        msg: "my name is: {{ name }}, with port no: {{ port }}"
+      with_items:
+        - "{{ system_uptime}}"

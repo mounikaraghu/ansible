@@ -1,0 +1,35 @@
+---
+# tasks file for roles/apache2
+- name: only run "update_cache=yes" if the last one is more than 3600 seconds ago
+  ansible.builtin.apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  tags:
+   - nginx
+- name: upgrade all packages on system
+  apt:
+    name: "*"
+    state: latest
+  tags:
+   - upgrade
+- name: copy
+  copy:
+    src: index.html
+    dest: "{{ item }}"
+  loop:
+    - "/var/www/html"
+    - "/usr/share/apache2/html"
+  notify:
+      - restart apache2
+- name: Install apache httpd 
+  ansible.builtin.apt:
+    name: apache2
+    state: present
+- name: enable apache2 service on boot
+  service:
+    name: apache2
+    enabled: yes
+- name: start apache
+  service:
+    name: apache2
+    state: started

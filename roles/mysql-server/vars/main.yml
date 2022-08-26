@@ -1,0 +1,5 @@
+---
+# vars file for roles/mysql-server
+dbuser: admin
+dbpass: test123
+

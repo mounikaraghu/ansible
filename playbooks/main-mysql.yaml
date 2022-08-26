@@ -1,0 +1,5 @@
+---
+- name: webapp
+  hosts: dbservers
+  roles:
+    - mysql-server

@@ -1,0 +1,15 @@
+---
+# tasks file for roles/php
+- name: install php mysql extension for php
+  ansible.builtin.apt:
+     update_cache: yes
+- name: update all packages
+  apt:
+    name: "*"
+    state: latest
+  tags:
+   - upgrade
+- name: install php
+  ansible.builtin.apt:
+    name: php
+    state: present

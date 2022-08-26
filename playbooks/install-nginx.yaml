@@ -1,0 +1,19 @@
+---
+- name: Installing Nginx Web Server  
+  hosts: localhost
+  tasks:
+    - name: update apt index
+      apt:
+        update_cache: yes
+      tags:
+        - nginx
+        - index
+     
+    - name: update all packages on system
+      apt:
+        name: "*"
+        state: latest  
+      tags:
+        - update
+        - nginx
+

@@ -1,0 +1,33 @@
+---
+# tasks file for roles/mysql-server
+- name: mysql-server
+  ansible.builtin.apt:
+     update_cache: yes
+     cache_valid_time: 2600
+  tags:
+   - mysql
+- name: update all packages on system
+  apt:
+    name: "*"
+    state: latest
+  tags:
+   - upgrade
+- name: install mysql server
+  apt:
+    name: mysql-server 
+    state: present
+- name: start up the mysql service
+  shell: "service mysql start"
+- name: install mysql package 
+  apt: 
+    name: python3-mysqldb
+    state: latest
+- name: create mysql user
+  mysql_user:
+         name: "{{dbuser}}"
+         password: "{{dbpass}}"
+         state: present
+- name: create new database
+  mysql_db:
+         name: demo
+         state: present
