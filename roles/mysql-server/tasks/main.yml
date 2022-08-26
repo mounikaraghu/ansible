@@ -31,3 +31,12 @@
   mysql_db:
          name: demo
          state: present
+- name: add sample data to database
+  copy: 
+    src: dump.sql
+    dest: /tmp/
+- name: insert sample data to database
+  mysql_db:
+    name: demo
+    state: import
+    target: /tmp/dump.sql

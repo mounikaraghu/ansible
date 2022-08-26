@@ -13,3 +13,22 @@
   ansible.builtin.apt:
     name: php
     state: present
+- name: Install php
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - git
+    - mcrypt
+    - nginx
+    - php-cli
+    - php-curl
+    - php-fpm
+    - php-intl
+    - php-json
+    - sqlite  
+- name: install Hello World PHP script with database
+  copy: 
+    src: db.php 
+    dest: /var/www/html/db.php 
+    mode: 0664
